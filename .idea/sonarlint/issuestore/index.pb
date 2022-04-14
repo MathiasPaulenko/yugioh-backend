@@ -5,9 +5,6 @@ F
 yugioh-backend/asgi.py,7\6\76bed761ec7500524359be7a2ff301b1f1acf77e
 F
 yugioh-backend/wsgi.py,7\2\7284cf9a28f21a36feff0021cfed846f7b90c9ea
-:
-
-.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 P
  yugioh-backend/settings/local.py,d\4\d49c95a568ed6d38f9c2a76a8f5636d4be642b90
 9
@@ -30,5 +27,3 @@ L
 apps/api/v1/base/__init__.py,c\b\cb4c6e30fa9e126de3a0bccdcbdc50140113d9ed
 J
 apps/api/v1/base/models.py,1\3\13546123357c26cab32d8f58a9f8b89412c423ce
-K
-apps/api/v1/card/choices.py,e\9\e9a31be9e834fb9d089acbf707547fb745437973
