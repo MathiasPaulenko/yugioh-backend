@@ -24,6 +24,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'drf_yasg',
     'simple_history',
+    'import_export',
 ]
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 

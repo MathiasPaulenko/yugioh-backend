@@ -14,8 +14,8 @@ CARD_SUBTYPE = (
     ('7', 'Pendulum Effect Monster'),
     ('8', 'Pendulum Flip Effect Monster'),
     ('9', 'Pendulum Normal Monster'),
-    ('1', 'Pendulum Tuner Effect Monster'),
-    ('10', 'Ritual Effect Monster'),
+    ('10', 'Pendulum Tuner Effect Monster'),
+    ('11', 'Ritual Effect Monster'),
     ('12', 'Ritual Monster'),
     ('13', 'Skill Card'),
     ('14', 'Spell Card'),
@@ -60,6 +60,16 @@ MONSTER_RACE = (
     ('23', 'Winged Beast'),
 )
 
+MAGIC_TRAP_RACE = (
+    ('1', 'Normal'),
+    ('2', 'Field'),
+    ('3', 'Equip'),
+    ('4', 'Continuous'),
+    ('5', 'Quick-Play'),
+    ('6', 'Ritual'),
+    ('7', 'Counter'),
+)
+
 CARD_ATTRIBUTE = (
     ('1', 'Dark'),
     ('2', 'Light'),
@@ -72,14 +82,25 @@ CARD_ATTRIBUTE = (
 
 CARD_RARITY = (
     ('1', 'Common'),
-    ('', 'Rare'),
-    ('', 'Super rare'),
-    ('', 'Ultra rare'),
-    ('', 'Ultimate rare'),
-    ('', 'Secret rare'),
-    ('', 'Prismatic secret rare'),
-    ('', 'Ghost rare'),
-    ('', 'Parallel rarity'),
-    ('', 'Duel terminal'),
-    ('', 'Gold rare'),
+    ('2', 'Rare'),
+    ('3', 'Super rare'),
+    ('4', 'Ultra rare'),
+    ('5', 'Ultimate rare'),
+    ('6', 'Secret rare'),
+    ('7', 'Prismatic secret rare'),
+    ('8', 'Ghost rare'),
+    ('9', 'Parallel rarity'),
+    ('10', 'Duel terminal'),
+    ('11', 'Gold rare'),
+)
+
+LINK_MARKERS = (
+    ('1', 'Top'),
+    ('2', 'Bottom'),
+    ('3', 'Left'),
+    ('4', 'Right'),
+    ('5', 'Bottom-Left'),
+    ('6', 'Bottom-Right'),
+    ('7', 'Top-Left'),
+    ('8', 'Top-Right')
 )

@@ -1,3 +1,5 @@
+import os
+
 from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -19,3 +21,4 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
