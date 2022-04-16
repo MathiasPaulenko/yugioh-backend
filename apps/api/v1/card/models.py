@@ -1,6 +1,4 @@
 from django.db import models
-from rest_framework import serializers
-
 from apps.api.v1.base.models import BaseModel
 from apps.api.v1.card import choices
 
@@ -13,7 +11,7 @@ class Type(BaseModel):
         verbose_name_plural = 'Types'
 
     def __str__(self):
-        return f"{self.name}"
+        return self.get_name_display()
 
 
 class Subtype(BaseModel):
@@ -24,7 +22,7 @@ class Subtype(BaseModel):
         verbose_name_plural = 'Subtypes'
 
     def __str__(self):
-        return f"{self.name}"
+        return self.get_name_display()
 
 
 class Race(BaseModel):
@@ -35,7 +33,7 @@ class Race(BaseModel):
         verbose_name_plural = 'Races'
 
     def __str__(self):
-        return f"{self.name}"
+        return self.get_name_display()
 
 
 class MagicTrapRace(BaseModel):
@@ -46,7 +44,7 @@ class MagicTrapRace(BaseModel):
         verbose_name_plural = 'Magic/Trap Races'
 
     def __str__(self):
-        return f"{self.name}"
+        return self.get_name_display()
 
 
 class Attribute(BaseModel):
@@ -57,7 +55,7 @@ class Attribute(BaseModel):
         verbose_name_plural = 'Attributes'
 
     def __str__(self):
-        return f"{self.name}"
+        return self.get_name_display()
 
 
 class Rarity(BaseModel):
@@ -68,7 +66,7 @@ class Rarity(BaseModel):
         verbose_name_plural = 'Rarities'
 
     def __str__(self):
-        return f"{self.name}"
+        return self.get_name_display()
 
 
 class LinkMarker(BaseModel):
@@ -79,7 +77,7 @@ class LinkMarker(BaseModel):
         verbose_name_plural = 'Link Markers'
 
     def __str__(self):
-        return f"{self.name}"
+        return self.get_name_display()
 
 
 class Card(BaseModel):
@@ -94,6 +92,18 @@ class Card(BaseModel):
     subtype: Subtype = models.ForeignKey(Subtype, related_name='subtype', on_delete=models.CASCADE)
     type: Type = models.ForeignKey(Type, related_name='type', on_delete=models.CASCADE)
     rarity: Rarity = models.ForeignKey(Rarity, related_name='rarity', on_delete=models.CASCADE)
+
+    @property
+    def get_type_display(self):
+        return self.type
+
+    @property
+    def get_subtype_display(self):
+        return self.subtype
+
+    @property
+    def get_rarity_display(self):
+        return self.rarity
 
     @property
     def rarity_name(self):
@@ -117,12 +127,19 @@ class Card(BaseModel):
 
 class Monster(Card):
     description = models.CharField('Description', max_length=250, blank=False, null=False)
-    level = models.CharField("Level/Rank", max_length=20)
     attack = models.CharField("Attack", max_length=20)
     archetype = models.CharField('Archetype', max_length=250, blank=True, null=True)
 
     race: Race = models.ForeignKey(Race, related_name='monster_race', on_delete=models.CASCADE)
     attribute: Attribute = models.ForeignKey(Attribute, related_name='attribute', on_delete=models.CASCADE)
+
+    @property
+    def get_race_display(self):
+        return self.race
+
+    @property
+    def get_attribute_display(self):
+        return self.attribute
 
     @property
     def race_name(self):
@@ -132,36 +149,67 @@ class Monster(Card):
     def attribute_name(self):
         return self.attribute.name
 
+    class Meta:
+        verbose_name = 'Monster'
+        verbose_name_plural = 'Monsters'
+
+    def __str__(self):
+        return f"{self.name}"
+
 
 class MagicTrapCard(Card):
     description = models.CharField('Description', max_length=250, blank=False, null=False)
-    race: Race = models.ForeignKey(Race, related_name='magic_trap_race', on_delete=models.CASCADE)
+    race: Race = models.ForeignKey(MagicTrapRace, related_name='magic_trap_race', on_delete=models.CASCADE)
+    archetype = models.CharField('Archetype', max_length=250, blank=True, null=True)
 
     @property
     def race_name(self):
         return self.race.name
 
+    @property
+    def get_race_display(self):
+        return self.race
+
+    class Meta:
+        verbose_name = 'Magic/Trap Card'
+        verbose_name_plural = 'Magic/Trap Cards'
+
+    def __str__(self):
+        return f"{self.name}"
+
 
 class GeneralMonster(Monster):
     defence = models.CharField("Defence", max_length=20)
+    level = models.CharField("Level/Rank", max_length=20, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Monster'
-        verbose_name_plural = 'Monster'
+        verbose_name = 'General Monster'
+        verbose_name_plural = 'General Monster'
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class LinkMonster(Monster):
     link_value = models.IntegerField('Link Value')
-    link_markers: LinkMarker = models.ManyToManyField(LinkMarker)
+    link_markers: LinkMarker = models.ManyToManyField(LinkMarker, related_name='link_markers')
 
     class Meta:
         verbose_name = 'Link Monster'
         verbose_name_plural = 'Link Monsters'
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class PendulumMonster(Monster):
     scale = models.IntegerField('Scale')
+    defence = models.CharField("Defence", max_length=20)
+    level = models.CharField("Level/Rank", max_length=20, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Pendulum Monster'
         verbose_name_plural = 'Pendulum Monsters'
+
+    def __str__(self):
+        return f"{self.name}"

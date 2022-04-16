@@ -1,12 +1,12 @@
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="YuGiOh Card Collection Management",
+        title="YuGiOh! Card Collection Management",
         default_version='v1',
         description="Backend for the card game collection management application YuGiOh!",
         terms_of_service="",
@@ -27,4 +27,8 @@ admin_url = [
     path('admin/', admin.site.urls),
 ]
 
-urlpatterns = doc_url + admin_url
+cards_url = [
+    path('card/', include('apps.api.v1.card.routers'))
+]
+
+urlpatterns = doc_url + admin_url + cards_url

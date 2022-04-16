@@ -24,8 +24,9 @@ class TypeResources(resources.ModelResource):
 
 
 class TypeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    search_fields = ['get_type_display']
-    list_display = ['get_name_display']
+    search_fields = ['name']
+    list_display = ['id', 'get_name_display']
+    ordering = ('id',)
     exclude = (
         'state',
         'created_date',
@@ -42,7 +43,8 @@ class SubtypeResources(resources.ModelResource):
 
 class SubtypeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['get_name_display']
+    ordering = ('id',)
+    list_display = ['id', 'get_name_display']
     exclude = (
         'state',
         'created_date',
@@ -59,7 +61,8 @@ class RaceResources(resources.ModelResource):
 
 class RaceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['get_name_display']
+    list_display = ['id', 'get_name_display']
+    ordering = ('id',)
     exclude = (
         'state',
         'created_date',
@@ -76,7 +79,8 @@ class MagicTrapRaceResources(resources.ModelResource):
 
 class MagicTrapRaceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['get_name_display']
+    ordering = ('id',)
+    list_display = ['id', 'get_name_display']
     exclude = (
         'state',
         'created_date',
@@ -93,7 +97,8 @@ class AttributeResources(resources.ModelResource):
 
 class AttributeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['get_name_display']
+    ordering = ('id',)
+    list_display = ['id', 'get_name_display']
     exclude = (
         'state',
         'created_date',
@@ -110,7 +115,8 @@ class RarityResources(resources.ModelResource):
 
 class RarityAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['get_name_display']
+    list_display = ['id', 'get_name_display']
+    ordering = ('id',)
     exclude = (
         'state',
         'created_date',
@@ -127,7 +133,8 @@ class LinkMarkerResources(resources.ModelResource):
 
 class LinkMarkerAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['get_name_display']
+    list_display = ['id', 'get_name_display']
+    ordering = ('id',)
     exclude = (
         'state',
         'created_date',

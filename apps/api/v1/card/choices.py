@@ -2,6 +2,7 @@ CARD_TYPE = (
     ('1', 'Monster'),
     ('2', 'Spell'),
     ('3', 'Trap'),
+    ('4', 'Skill'),
 )
 
 CARD_SUBTYPE = (
@@ -58,6 +59,7 @@ MONSTER_RACE = (
     ('21', 'Thunder'),
     ('22', 'Warrior'),
     ('23', 'Winged Beast'),
+    ('24', 'Wyrm'),
 )
 
 MAGIC_TRAP_RACE = (
@@ -92,6 +94,7 @@ CARD_RARITY = (
     ('9', 'Parallel rarity'),
     ('10', 'Duel terminal'),
     ('11', 'Gold rare'),
+    ('12', 'Premium gold rare'),
 )
 
 LINK_MARKERS = (
