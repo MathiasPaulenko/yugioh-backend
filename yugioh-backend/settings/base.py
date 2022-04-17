@@ -13,6 +13,7 @@ BASE_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
 ]
 
 LOCAL_APPS = [
@@ -25,6 +26,8 @@ THIRD_PARTY_APPS = [
     'drf_yasg',
     'simple_history',
     'import_export',
+    'django_filters',
+
 ]
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
@@ -79,8 +82,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PAGINATION_CLASS': 'apps.api.v1.base.pagination.StandardResultsSetPagination',
+    'PAGE_SIZE': 15,
 }
 
 # Internationalization

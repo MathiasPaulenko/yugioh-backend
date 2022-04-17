@@ -3,6 +3,7 @@ CARD_TYPE = (
     ('2', 'Spell'),
     ('3', 'Trap'),
     ('4', 'Skill'),
+    ('5', 'Token'),
 )
 
 CARD_SUBTYPE = (

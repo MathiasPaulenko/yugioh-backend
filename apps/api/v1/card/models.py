@@ -120,6 +120,7 @@ class Card(BaseModel):
     class Meta:
         verbose_name = 'Card'
         verbose_name_plural = 'Cards'
+        ordering = ['card_number', 'serial_code', ]
 
     def __str__(self):
         return f"{self.serial_code}"

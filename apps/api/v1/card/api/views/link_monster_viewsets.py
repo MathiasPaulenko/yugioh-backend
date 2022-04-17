@@ -1,5 +1,4 @@
-from rest_framework import viewsets, status
-from rest_framework.response import Response
+from rest_framework import viewsets
 
 from apps.api.v1.card.api.serializers.link_monster_serializer import LinkMonsterSerializer
 
@@ -14,5 +13,6 @@ class LinkMonsterViewSet(viewsets.ModelViewSet):
         return self.get_serializer().Meta.model.objects.filter(id=pk, state=True).first()
 
     def list(self, request, *args, **kwargs):
-        link_monster_serializer = self.get_serializer(self.get_queryset(), many=True)
-        return Response(link_monster_serializer.data, status=status.HTTP_200_OK)
+        page = self.paginate_queryset(self.get_queryset())
+        link_monster_serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(link_monster_serializer.data)
