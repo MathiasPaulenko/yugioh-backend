@@ -8,7 +8,7 @@ from apps.api.v1.card.models import Card
 
 class CardViewSet(viewsets.ModelViewSet):
     serializer_class = CardSerializer
-    lookup_field = "card_number"
+    lookup_field = "serial_code__iexact"
     lookup_value_regex = '[^/]+'
     queryset = Card.objects.all()
     filter_backends = (DjangoFilterBackend,)
