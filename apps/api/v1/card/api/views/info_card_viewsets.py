@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 
 from apps.api.v1.card.api.serializers.info_card_serializer import InfoCardSerializer
-from apps.api.v1.card import filters
+from apps.api.v1.collection import filters
 from apps.api.v1.card.models import Card
 
 

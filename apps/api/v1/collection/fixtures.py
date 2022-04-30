@@ -44,4 +44,4 @@ def get_choice_query(queryset, name, value, data_choices):
         })
         return query
     except KeyError:
-        return Card.objects.none()
+        return

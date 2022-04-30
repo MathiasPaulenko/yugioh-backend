@@ -14,12 +14,13 @@ class CardFilter(filters.FilterSet):
     lamount = filters.NumberFilter(field_name='amount', lookup_expr='lt')
     gamount = filters.NumberFilter(field_name='amount', lookup_expr='gt')
 
+    """ especial filters """
     type = filters.CharFilter(method='type_filter')
     subtype = filters.CharFilter(method='subtype_filter')
     rarity = filters.CharFilter(method='rarity_filter')
 
-    """ especial filters """
-    level = filters.CharFilter(method='level_filter')
+    in_collection = filters.BooleanFilter(method='in_collection_filter')
+    repeated = filters.BooleanFilter(method='repeated_filter')
 
     class Meta:
         model = Card
@@ -40,27 +41,18 @@ class CardFilter(filters.FilterSet):
 
     @staticmethod
     def subtype_filter(queryset, name, value):
-        card_types = {str(y).lower(): x for x, y in dict(choices.CARD_SUBTYPE).items()}
-
-        try:
-            query = queryset.filter(**{
-                'subtype': card_types[str(value).lower()],
-            })
-            return query
-        except KeyError:
-            return Card.objects.none()
+        return get_choice_query(queryset, 'subtype', value, choices.CARD_SUBTYPE)
 
     @staticmethod
     def rarity_filter(queryset, name, value):
-        card_types = {str(y).lower(): x for x, y in dict(choices.CARD_RARITY).items()}
+        return get_choice_query(queryset, 'rarity', value, choices.CARD_RARITY)
 
-        try:
-            query = queryset.filter(**{
-                'rarity': card_types[str(value).lower()],
-            })
-            return query
-        except KeyError:
-            return Card.objects.none()
+    @staticmethod
+    def in_collection_filter(queryset, name, value):
+        query = {'amount__gte': 1} if value else {'amount__lte': 0}
+        return queryset.filter(**query)
 
-
-
+    @staticmethod
+    def repeated_filter(queryset, name, value):
+        query = {'amount__gte': 4} if value else {'amount__gt': 0, 'amount__lte': 3}
+        return queryset.filter(**query)
