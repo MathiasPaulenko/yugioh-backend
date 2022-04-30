@@ -15,7 +15,23 @@ from apps.api.v1.card.models import (
     PendulumMonster,
     MagicTrapCard,
     Card,
+    SkillCard,
 )
+
+general_fields = [
+    'card_number',
+    'serial_code',
+    'name',
+    'description',
+    'type',
+    'subtype',
+    'race',
+    'rarity',
+    'edition',
+    'set_name',
+    'img_code',
+    'amount',
+]
 
 
 class TypeResources(resources.ModelResource):
@@ -25,10 +41,9 @@ class TypeResources(resources.ModelResource):
 
 class TypeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['id', 'get_name_display']
+    list_display = ['id', 'get_name_display', 'state']
     ordering = ('id',)
     exclude = (
-        'state',
         'created_date',
         'modified_date',
         'deleted_date',
@@ -44,9 +59,8 @@ class SubtypeResources(resources.ModelResource):
 class SubtypeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
     ordering = ('id',)
-    list_display = ['id', 'get_name_display']
+    list_display = ['id', 'get_name_display', 'state', ]
     exclude = (
-        'state',
         'created_date',
         'modified_date',
         'deleted_date',
@@ -61,10 +75,9 @@ class RaceResources(resources.ModelResource):
 
 class RaceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['id', 'get_name_display']
+    list_display = ['id', 'get_name_display', 'state', ]
     ordering = ('id',)
     exclude = (
-        'state',
         'created_date',
         'modified_date',
         'deleted_date',
@@ -80,7 +93,7 @@ class MagicTrapRaceResources(resources.ModelResource):
 class MagicTrapRaceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
     ordering = ('id',)
-    list_display = ['id', 'get_name_display']
+    list_display = ['id', 'get_name_display', 'state', ]
     exclude = (
         'state',
         'created_date',
@@ -98,9 +111,8 @@ class AttributeResources(resources.ModelResource):
 class AttributeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
     ordering = ('id',)
-    list_display = ['id', 'get_name_display']
+    list_display = ['id', 'get_name_display', 'state', ]
     exclude = (
-        'state',
         'created_date',
         'modified_date',
         'deleted_date',
@@ -115,10 +127,9 @@ class RarityResources(resources.ModelResource):
 
 class RarityAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['id', 'get_name_display']
+    list_display = ['id', 'get_name_display', 'state', ]
     ordering = ('id',)
     exclude = (
-        'state',
         'created_date',
         'modified_date',
         'deleted_date',
@@ -133,10 +144,9 @@ class LinkMarkerResources(resources.ModelResource):
 
 class LinkMarkerAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['id', 'get_name_display']
+    list_display = ['id', 'get_name_display', 'state', ]
     ordering = ('id',)
     exclude = (
-        'state',
         'created_date',
         'modified_date',
         'deleted_date',
@@ -157,6 +167,9 @@ class GeneralMonsterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'serial_code',
         'archetype',
     ]
+
+    list_display = general_fields + ['attack', 'defence', 'archetype']
+
     exclude = (
         'state',
         'created_date',
@@ -179,6 +192,9 @@ class LinkMonsterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'serial_code',
         'archetype',
     ]
+
+    list_display = general_fields + ['link_value', 'get_link_markers', 'attack', 'archetype']
+
     exclude = (
         'state',
         'created_date',
@@ -186,6 +202,10 @@ class LinkMonsterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'deleted_date',
     )
     resource_class = LinkMonsterResources
+
+    @staticmethod
+    def get_link_markers(obj):
+        return [lk.get_name_display() for lk in obj.link_markers.all()]
 
 
 class PendulumMonsterResources(resources.ModelResource):
@@ -201,6 +221,9 @@ class PendulumMonsterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'serial_code',
         'archetype',
     ]
+
+    list_display = general_fields + ['scale', 'defence', 'attack', 'defence', 'level', 'archetype']
+
     exclude = (
         'state',
         'created_date',
@@ -222,6 +245,9 @@ class MagicTrapCardAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'card_number',
         'serial_code',
     ]
+
+    list_display = general_fields + ['archetype']
+
     exclude = (
         'state',
         'created_date',
@@ -243,6 +269,16 @@ class CardAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'card_number',
         'serial_code',
     ]
+
+    list_display = [
+        'card_number',
+        'serial_code',
+        'name',
+        'amount',
+        'type',
+        'rarity',
+    ]
+
     exclude = (
         'state',
         'created_date',
@@ -250,3 +286,27 @@ class CardAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'deleted_date',
     )
     resource_class = CardResources
+
+
+class SkillCardResources(resources.ModelResource):
+    class Meta:
+        model = SkillCard
+
+
+class SkillCardAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    search_fields = [
+        'name',
+        'description',
+        'card_number',
+        'serial_code',
+    ]
+
+    list_display = general_fields
+
+    exclude = (
+        'state',
+        'created_date',
+        'modified_date',
+        'deleted_date',
+    )
+    resource_class = SkillCardResources

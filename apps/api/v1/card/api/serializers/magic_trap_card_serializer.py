@@ -12,8 +12,8 @@ class MagicTrapCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = MagicTrapCard
         fields = (
-            'serial_code',
             'card_number',
+            'serial_code',
             'name',
             'description',
             'race',

@@ -158,6 +158,18 @@ class Monster(Card):
         return f"{self.name}"
 
 
+class SkillCard(Card):
+    description = models.CharField('Description', max_length=250, blank=False, null=False)
+    race: Race = models.CharField('Race', max_length=250, blank=False, null=False)
+
+    class Meta:
+        verbose_name = 'Skill Card'
+        verbose_name_plural = 'Skill Cards'
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class MagicTrapCard(Card):
     description = models.CharField('Description', max_length=250, blank=False, null=False)
     race: Race = models.ForeignKey(MagicTrapRace, related_name='magic_trap_race', on_delete=models.CASCADE)

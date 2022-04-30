@@ -131,3 +131,7 @@ dmypy.json
 
 # Pycharm files
 .idea
+
+# Local Files
+test.json
+TODO.txt

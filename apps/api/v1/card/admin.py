@@ -12,6 +12,7 @@ from apps.api.v1.card.models import (
     PendulumMonster,
     MagicTrapCard,
     Card,
+    SkillCard,
 )
 from apps.api.v1.card.admin_resources import (
     TypeAdmin,
@@ -26,6 +27,7 @@ from apps.api.v1.card.admin_resources import (
     PendulumMonsterAdmin,
     MagicTrapCardAdmin,
     CardAdmin,
+    SkillCardAdmin,
 )
 
 admin.site.register(Type, TypeAdmin)
@@ -39,4 +41,5 @@ admin.site.register(GeneralMonster, GeneralMonsterAdmin)
 admin.site.register(LinkMonster, LinkMonsterAdmin)
 admin.site.register(PendulumMonster, PendulumMonsterAdmin)
 admin.site.register(MagicTrapCard, MagicTrapCardAdmin)
+admin.site.register(SkillCard, SkillCardAdmin)
 admin.site.register(Card, CardAdmin)
