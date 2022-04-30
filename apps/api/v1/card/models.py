@@ -89,8 +89,8 @@ class Card(BaseModel):
     amount = models.IntegerField('Amount', default=0)
     img_code = models.CharField('Image Code', max_length=20, blank=True, null=True)
 
-    subtype: Subtype = models.ForeignKey(Subtype, related_name='subtype', on_delete=models.CASCADE)
     type: Type = models.ForeignKey(Type, related_name='type', on_delete=models.CASCADE)
+    subtype: Subtype = models.ForeignKey(Subtype, related_name='subtype', on_delete=models.CASCADE)
     rarity: Rarity = models.ForeignKey(Rarity, related_name='rarity', on_delete=models.CASCADE)
 
     @property

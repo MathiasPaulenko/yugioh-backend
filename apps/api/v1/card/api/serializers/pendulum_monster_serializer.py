@@ -19,6 +19,7 @@ class PendulumMonsterSerializer(serializers.ModelSerializer):
             'description',
             'attack',
             'defence',
+            'level',
             'type',
             'subtype',
             'race',

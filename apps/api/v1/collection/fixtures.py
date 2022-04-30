@@ -1,4 +1,11 @@
-from apps.api.v1.card.models import MagicTrapCard, GeneralMonster, LinkMonster, PendulumMonster, SkillCard
+from apps.api.v1.card.models import (
+    MagicTrapCard,
+    GeneralMonster,
+    LinkMonster,
+    PendulumMonster,
+    SkillCard,
+    Card
+)
 from apps.api.v1.card.api.serializers.general_monster_serializer import GeneralMonsterSerializer
 from apps.api.v1.card.api.serializers.link_monster_serializer import LinkMonsterSerializer
 from apps.api.v1.card.api.serializers.magic_trap_card_serializer import MagicTrapCardSerializer
@@ -26,3 +33,15 @@ def get_data_from_card_type(instance):
         else:
             card_filter = GeneralMonster.objects.filter(serial_code=card_serial_code).first()
             return GeneralMonsterSerializer(card_filter).data
+
+
+def get_choice_query(queryset, name, value, data_choices):
+    card = {str(y).lower(): x for x, y in dict(data_choices).items()}
+
+    try:
+        query = queryset.filter(**{
+            name: card[str(value).lower()],
+        })
+        return query
+    except KeyError:
+        return Card.objects.none()

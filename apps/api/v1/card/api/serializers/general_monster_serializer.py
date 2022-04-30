@@ -22,6 +22,7 @@ class GeneralMonsterSerializer(serializers.ModelSerializer):
             'type',
             'subtype',
             'race',
+            'level',
             'attribute',
             'rarity',
             'archetype',

@@ -276,6 +276,7 @@ class CardAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'name',
         'amount',
         'type',
+        'subtype',
         'rarity',
     ]
 
