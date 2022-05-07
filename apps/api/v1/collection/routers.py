@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from apps.api.v1.collection.views.card_viewsets import (
     CardViewSet,
     IncreaseCardViewSet,
-    DecreaseCardViewSet
+    DecreaseCardViewSet,
 )
 
 router = DefaultRouter()

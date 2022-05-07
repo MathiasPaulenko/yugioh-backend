@@ -1,0 +1,19 @@
+{
+  "card_number": "73625877",
+  "serial_code": "BP03-EN088",
+  "name": "Time Escaper",
+  "description": "During either player's turn: You can discard this card, then target 1 Psychic-Type monster you control; banish it until your next Standby Phase.",
+  "attack": "500",
+  "defence": "100",
+  "type": 1,
+  "subtype": 1,
+  "race": 15,
+  "level": "2",
+  "attribute": 6,
+  "rarity": 1,
+  "archetype": null,
+  "edition": "",
+  "set_name": "Battle Pack 3: Monster League",
+  "img_code": "73625877",
+  "amount": 1
+}

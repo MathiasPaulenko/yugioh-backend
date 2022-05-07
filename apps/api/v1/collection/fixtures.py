@@ -36,9 +36,12 @@ def get_data_from_card_type(instance):
             return GeneralMonsterSerializer(card_filter).data
 
 
+def get_choices_inverted(data_choices):
+    return {str(y).lower(): x for x, y in dict(data_choices).items()}
+
+
 def get_choice_multi_query(queryset, name, value, data_choices):
-    card = {str(y).lower(): x for x, y in dict(data_choices).items()}
-    print(card[str(value).lower()])
+    card = get_choices_inverted(data_choices)
     try:
         query = queryset.filter(**{
             name: card[str(value).lower()],
@@ -48,8 +51,8 @@ def get_choice_multi_query(queryset, name, value, data_choices):
         return Card.objects.none()
 
 
-def get_choice_race_query(obj, serial_code, value, choices_data):
-    races = {str(y).lower(): x for x, y in dict(choices_data).items()}
+def get_choice_race_query(obj, serial_code, value, data_choices):
+    races = get_choices_inverted(data_choices)
     try:
         return obj.filter(serial_code=serial_code, race=int(races[(str(value).lower())]))
     except KeyError:

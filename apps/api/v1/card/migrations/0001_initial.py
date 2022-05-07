@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('state', models.BooleanField(default=True, verbose_name='Status')),
-                ('created_date', models.DateField(auto_now_add=True, verbose_name='Created Date')),
+                ('created_date', models.DateField(auto_now_add=True, verbose_name= 'Created Date')),
                 ('modified_date', models.DateField(auto_now=True, verbose_name='Updated Date')),
                 ('deleted_date', models.DateField(auto_now=True, verbose_name='Deleted Date')),
                 ('name', models.CharField(choices=[('1', 'Dark'), ('2', 'Light'), ('3', 'Divine'), ('4', 'Earth'), ('5', 'Fire'), ('6', 'Water'), ('7', 'Wind')], max_length=50)),

@@ -89,9 +89,9 @@ class Card(BaseModel):
     amount = models.IntegerField('Amount', default=0)
     img_code = models.CharField('Image Code', max_length=20, blank=True, null=True)
 
-    type: Type = models.ForeignKey(Type, related_name='type', on_delete=models.CASCADE)
-    subtype: Subtype = models.ForeignKey(Subtype, related_name='subtype', on_delete=models.CASCADE)
-    rarity: Rarity = models.ForeignKey(Rarity, related_name='rarity', on_delete=models.CASCADE)
+    type: Type = models.ForeignKey(Type, related_name='type', on_delete=models.CASCADE, null=True)
+    subtype: Subtype = models.ForeignKey(Subtype, related_name='subtype', on_delete=models.CASCADE, null=True)
+    rarity: Rarity = models.ForeignKey(Rarity, related_name='rarity', on_delete=models.CASCADE, null=True)
 
     @property
     def get_type_display(self):
@@ -127,12 +127,12 @@ class Card(BaseModel):
 
 
 class Monster(Card):
-    description = models.CharField('Description', max_length=250, blank=False, null=False)
+    description = models.CharField('Description', max_length=1000, blank=False, null=False)
     attack = models.CharField("Attack", max_length=20)
     archetype = models.CharField('Archetype', max_length=250, blank=True, null=True)
 
-    race: Race = models.ForeignKey(Race, related_name='monster_race', on_delete=models.CASCADE)
-    attribute: Attribute = models.ForeignKey(Attribute, related_name='attribute', on_delete=models.CASCADE)
+    race: Race = models.ForeignKey(Race, related_name='monster_race', on_delete=models.CASCADE, null=True)
+    attribute: Attribute = models.ForeignKey(Attribute, related_name='attribute', on_delete=models.CASCADE, null=True)
 
     @property
     def get_race_display(self):
@@ -159,7 +159,7 @@ class Monster(Card):
 
 
 class SkillCard(Card):
-    description = models.CharField('Description', max_length=250, blank=False, null=False)
+    description = models.CharField('Description', max_length=1000, blank=False, null=False)
     race: Race = models.CharField('Race', max_length=250, blank=False, null=False)
 
     class Meta:
@@ -171,7 +171,7 @@ class SkillCard(Card):
 
 
 class MagicTrapCard(Card):
-    description = models.CharField('Description', max_length=250, blank=False, null=False)
+    description = models.CharField('Description', max_length=1000, blank=False, null=False)
     race: Race = models.ForeignKey(MagicTrapRace, related_name='magic_trap_race', on_delete=models.CASCADE)
     archetype = models.CharField('Archetype', max_length=250, blank=True, null=True)
 
