@@ -4,6 +4,10 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.api.v1.collection.fixtures import (
+    get_choices_inverted,
+    invert_request_choices_values
+)
 from apps.api.v1.collection.serializers.card_serializer import (
     CardSerializer,
     DecreaseIncreaseCardSerializer,
@@ -36,7 +40,17 @@ class CreateUpdateCardViewSet(APIView):
     @staticmethod
     def post(request):
         try:
-            card_type = request.data['type']
+
+            try:
+                Card.objects.get(serial_code=request.data['serial_code'])
+                return responses.SERIAL_CODE_FOUND_ERROR
+            except(Exception,):
+                pass
+
+            card_type = get_choices_inverted(choices.CARD_TYPE)[str(request.data['type']).lower()]
+            card_subtype = get_choices_inverted(choices.CARD_SUBTYPE)[str(request.data['subtype']).lower()]
+            invert_request_choices_values(request.data, card_type, card_subtype)
+
             if str(card_type).lower() == '4':
                 serializer = CreateSkillCardSerializer(data=request.data)
             elif str(card_type).lower() in ['2', '3']:
@@ -57,6 +71,7 @@ class CreateUpdateCardViewSet(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+
         except (Exception,) as ex:
             print(ex)
             return responses.GENERAL_ERROR
@@ -64,10 +79,16 @@ class CreateUpdateCardViewSet(APIView):
     @staticmethod
     def put(request, serial_code):
         try:
-            if serial_code != request.data['serial_code']:
-                return Response(status=status.HTTP_409_CONFLICT)
+
+            if 'serial_code' in request.data:
+                if serial_code != request.data['serial_code']:
+                    return responses.SERIAL_CODE_ERROR
+
             card = Card.objects.get(serial_code=serial_code)
             card_type = card.type
+            card_subtype = card.subtype
+            invert_request_choices_values(request.data, card_type, card_subtype)
+
             if str(card_type).lower() == 'skill':
                 card = SkillCard.objects.get(serial_code=serial_code)
                 serializer = CreateSkillCardSerializer(card, data=request.data, partial=True)
@@ -75,7 +96,6 @@ class CreateUpdateCardViewSet(APIView):
                 card = MagicTrapCard.objects.get(serial_code=serial_code)
                 serializer = CreateMagicTrapCardSerializer(card, data=request.data, partial=True)
             elif str(card_type).lower() in ['monster', 'token']:
-                card_subtype = card.subtype
                 if 'pendulum' in str(card_subtype).lower():
                     pendulum_monster = PendulumMonster.objects.get(serial_code=serial_code)
                     serializer = CreatePendulumMonsterSerializer(pendulum_monster, data=request.data, partial=True)

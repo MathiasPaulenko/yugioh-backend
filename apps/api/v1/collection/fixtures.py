@@ -227,3 +227,43 @@ def get_card_for_attribute(serial_codes, value):
     except (Exception,):
         return Card.objects.none()
     return queryset
+
+
+def invert_general_choice_info(request_data):
+    if 'type' in request_data and str(request_data['type']).isnumeric() is False:
+        request_data['type'] = get_choices_inverted(choices.CARD_TYPE)[str(request_data['type']).lower()]
+    if 'subtype' in request_data and str(request_data['subtype']).isnumeric() is False:
+        request_data['subtype'] = get_choices_inverted(choices.CARD_SUBTYPE)[str(request_data['subtype']).lower()]
+    if 'rarity' in request_data and str(request_data['rarity']).isnumeric() is False:
+        request_data['rarity'] = get_choices_inverted(choices.CARD_RARITY)[str(request_data['rarity']).lower()]
+
+
+def invert_link_val_choice_info(request_data, card_subtype):
+    if 'link' in str(card_subtype).lower() or '21' in str(card_subtype).lower():
+        marks = []
+        if 'link_markers' in request_data:
+            for markers in request_data['link_markers']:
+                marks.append(get_choices_inverted(choices.LINK_MARKERS)[str(markers).lower()])
+            request_data['link_markers'] = marks
+
+
+def invert_especial_choice_info(request_data, card_type):
+    if str(card_type).lower() in ['monster', 'token'] or str(card_type).lower() in ['1', '5']:
+        if 'race' in request_data and str(request_data['race']).isnumeric() is False:
+            request_data['race'] = get_choices_inverted(choices.MONSTER_RACE)[str(request_data['race']).lower()]
+        if 'attribute' in request_data and str(request_data['attribute']).isnumeric() is False:
+            request_data['attribute'] = get_choices_inverted(choices.CARD_ATTRIBUTE)[
+                str(request_data['attribute']).lower()]
+
+
+def invert_magic_trap_choice_info(request_data, card_type=None):
+    if str(card_type).lower() in ['spell', 'trap'] or str(card_type).lower() in ['2', '3']:
+        if str(request_data['race']).isnumeric() is False:
+            request_data['race'] = get_choices_inverted(choices.MAGIC_TRAP_RACE)[str(request_data['race']).lower()]
+
+
+def invert_request_choices_values(request_data, card_type=None, card_subtype=None):
+    invert_general_choice_info(request_data)
+    invert_magic_trap_choice_info(request_data, card_type)
+    invert_especial_choice_info(request_data, card_type)
+    invert_link_val_choice_info(request_data, card_subtype)

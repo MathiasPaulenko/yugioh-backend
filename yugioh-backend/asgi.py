@@ -1,5 +1,5 @@
 """
-ASGI config for yugiback project.
+ASGI config for yugioh-backend project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

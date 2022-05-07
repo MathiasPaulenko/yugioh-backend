@@ -1,8 +1,14 @@
 from rest_framework import serializers
 
-from apps.api.v1.card.api.serializers.link_marker_serializer import LinkMarkerListSerializer
-from apps.api.v1.card.models import Card, SkillCard, MagicTrapCard, PendulumMonster, LinkMonster, MagicTrapRace, \
+from apps.api.v1.card.models import (
+    Card,
+    SkillCard,
+    MagicTrapCard,
+    PendulumMonster,
+    LinkMonster,
+    MagicTrapRace,
     LinkMarker
+)
 from apps.api.v1.collection.fixtures import get_data_from_card_type
 from apps.api.v1.card.models import (
     GeneralMonster,
