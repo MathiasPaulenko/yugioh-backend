@@ -3,11 +3,11 @@ from apps.api.v1.card.models import LinkMarker
 
 
 class LinkMarkerSerializer(serializers.ModelSerializer):
-    link_marker = serializers.CharField(source='get_name_display')
+    link_markers = serializers.CharField(source='get_name_display')
 
     class Meta:
         model = LinkMarker
-        fields = ('id', 'link_marker')
+        fields = ('id', 'link_markers')
 
 
 class LinkMarkerListSerializer(serializers.ModelSerializer):

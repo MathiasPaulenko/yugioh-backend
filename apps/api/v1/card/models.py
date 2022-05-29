@@ -91,7 +91,7 @@ class Card(BaseModel):
 
     type: Type = models.ForeignKey(Type, related_name='type', on_delete=models.CASCADE, null=True)
     subtype: Subtype = models.ForeignKey(Subtype, related_name='subtype', on_delete=models.CASCADE, null=True)
-    rarity: Rarity = models.ForeignKey(Rarity, related_name='rarity', on_delete=models.CASCADE, null=True)
+    rarity: Rarity = models.ForeignKey(Rarity, related_name='rarity', on_delete=models.CASCADE, null=True, blank=True)
 
     @property
     def get_type_display(self):

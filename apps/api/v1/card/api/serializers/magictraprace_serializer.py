@@ -4,8 +4,8 @@ from apps.api.v1.card.models import MagicTrapRace
 
 
 class MagicTrapRaceSerializer(serializers.ModelSerializer):
-    type = serializers.CharField(source='get_name_display')
+    race = serializers.CharField(source='get_name_display')
 
     class Meta:
         model = MagicTrapRace
-        fields = ('id', 'type')
+        fields = ('id', 'race')

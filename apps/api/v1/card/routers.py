@@ -13,7 +13,7 @@ from apps.api.v1.card.api.views.type_viewsets import TypeViewSet
 router = DefaultRouter()
 router.register(r'card', InfoCardViewSet, basename='card')
 router.register(r'attribute', AttributeViewSet, basename='attribute')
-router.register(r'link_marker', LinkMarkerViewSet, basename='link_marker')
+router.register(r'link_markers', LinkMarkerViewSet, basename='link_markers')
 router.register(r'magic_trap_race', MagicTrapRaceViewSet, basename='magic_trap_race')
 router.register(r'race', RaceViewSet, basename='race')
 router.register(r'rarity', RarityViewSet, basename='rarity')

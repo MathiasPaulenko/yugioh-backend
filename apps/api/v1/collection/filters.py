@@ -104,6 +104,6 @@ class CardFilter(filters.FilterSet):
         return fixtures.get_card_for_race(serial_code, value)
 
     @staticmethod
-    def attribute_filter(queryset, name, value):
+    def attribute_filter(queryset,   name, value):
         serial_code = list(queryset.values_list('serial_code', flat=True))
         return fixtures.get_card_for_attribute(serial_code, value)
