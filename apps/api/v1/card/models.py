@@ -88,6 +88,9 @@ class Card(BaseModel):
     edition = models.CharField("Edition", blank=True, max_length=80, default='')
     amount = models.IntegerField('Amount', default=0)
     img_code = models.CharField('Image Code', max_length=20, blank=True, null=True)
+    format = models.CharField('Format', max_length=255, blank=True, null=True)
+    note = models.CharField('Note', max_length=255, blank=True, null=True)
+    banned = models.CharField('Banned', max_length=255, blank=True, null=True)
 
     type: Type = models.ForeignKey(Type, related_name='type', on_delete=models.CASCADE, null=True)
     subtype: Subtype = models.ForeignKey(Subtype, related_name='subtype', on_delete=models.CASCADE, null=True)
@@ -127,7 +130,7 @@ class Card(BaseModel):
 
 
 class Monster(Card):
-    description = models.CharField('Description', max_length=1000, blank=False, null=False)
+    description = models.CharField('Description', max_length=2000, blank=False, null=False)
     attack = models.CharField("Attack", max_length=20)
     archetype = models.CharField('Archetype', max_length=250, blank=True, null=True)
 

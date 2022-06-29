@@ -16,6 +16,7 @@ from apps.api.v1.card.models import (
     MagicTrapCard,
     Card,
     SkillCard,
+    Monster
 )
 
 general_fields = [
@@ -311,3 +312,28 @@ class SkillCardAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'deleted_date',
     )
     resource_class = SkillCardResources
+
+
+class MonsterResources(resources.ModelResource):
+    class Meta:
+        model = Monster
+
+
+class MonsterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    search_fields = [
+        'name',
+        'description',
+        'card_number',
+        'serial_code',
+        'archetype',
+    ]
+
+    list_display = general_fields
+
+    exclude = (
+        'state',
+        'created_date',
+        'modified_date',
+        'deleted_date',
+    )
+    resource_class = MonsterResources

@@ -25,4 +25,8 @@ class MagicTrapCardSerializer(serializers.ModelSerializer):
             'edition',
             'img_code',
             'amount',
+            'note',
+            'format',
+            'banned',
+
         )

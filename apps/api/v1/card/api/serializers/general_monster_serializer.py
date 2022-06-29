@@ -30,4 +30,8 @@ class GeneralMonsterSerializer(serializers.ModelSerializer):
             'set_name',
             'img_code',
             'amount',
+            'note',
+            'format',
+            'banned',
+
         )

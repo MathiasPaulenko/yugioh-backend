@@ -36,6 +36,8 @@ CARD_SUBTYPE = (
     ('26', 'XYZ Monster'),
     ('27', 'XYZ Pendulum Effect Monster'),
     ('28', 'Token Card'),
+    ('29', 'Pendulum Normal Tuner Monster'),
+
 )
 
 MONSTER_RACE = (
@@ -63,6 +65,7 @@ MONSTER_RACE = (
     ('22', 'Warrior'),
     ('23', 'Winged Beast'),
     ('24', 'Wyrm'),
+    ('25', 'Zombie'),
 )
 
 MAGIC_TRAP_RACE = (
@@ -101,6 +104,8 @@ CARD_RARITY = (
     ('13', 'Extra Secret Rare'),
     ('14', 'N/A'),
     ('15', 'Other'),
+    ('16', 'Gold secret rare'),
+
 )
 
 LINK_MARKERS = (
