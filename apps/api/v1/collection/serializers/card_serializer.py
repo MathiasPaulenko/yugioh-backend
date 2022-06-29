@@ -40,7 +40,7 @@ class DecreaseIncreaseCardSerializer(serializers.ModelSerializer):
         )
 
 
-class CreateGeneralMonsterSerializer(serializers.ModelSerializer):
+class  CreateGeneralMonsterSerializer(serializers.ModelSerializer):
     type = serializers.PrimaryKeyRelatedField(queryset=Type.objects.all())
     subtype = serializers.PrimaryKeyRelatedField(queryset=Subtype.objects.all())
     rarity = serializers.PrimaryKeyRelatedField(queryset=Rarity.objects.all())
@@ -67,6 +67,9 @@ class CreateGeneralMonsterSerializer(serializers.ModelSerializer):
             'set_name',
             'img_code',
             'amount',
+            'note',
+            'format',
+            'banned',
         )
 
 
@@ -90,6 +93,10 @@ class CreateSkillCardSerializer(serializers.ModelSerializer):
             'set_name',
             'img_code',
             'amount',
+            'note',
+            'format',
+            'banned',
+
         )
 
 
@@ -115,6 +122,10 @@ class CreateMagicTrapCardSerializer(serializers.ModelSerializer):
             'edition',
             'img_code',
             'amount',
+            'note',
+            'format',
+            'banned',
+
         )
 
 
@@ -146,6 +157,10 @@ class CreatePendulumMonsterSerializer(serializers.ModelSerializer):
             'set_name',
             'img_code',
             'amount',
+            'note',
+            'format',
+            'banned',
+
         )
 
 
@@ -177,4 +192,14 @@ class CreateLinkMonsterSerializer(serializers.ModelSerializer):
             'set_name',
             'img_code',
             'amount',
+            'note',
+            'format',
+            'banned',
+
         )
+
+
+class AmountCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Card
+        fields = ('serial_code', 'amount',)

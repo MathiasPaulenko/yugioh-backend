@@ -1,4 +1,4 @@
-from django_filters import rest_framework as filters
+from django_filters import rest_framework as filters, OrderingFilter
 
 from apps.api.v1.card.models import Card
 from apps.api.v1.card import choices
@@ -9,8 +9,10 @@ class CardFilter(filters.FilterSet):
     serial_code = filters.CharFilter(lookup_expr='icontains')
     card_number = filters.CharFilter(lookup_expr='icontains')
     name = filters.CharFilter(field_name='name', lookup_expr='icontains')
+    set_name = filters.CharFilter(field_name='set_name', lookup_expr='icontains')
+    game_format = filters.CharFilter(field_name='format', lookup_expr='icontains')
+    banned = filters.CharFilter(field_name='banned')
 
-    amount = filters.NumberFilter()
     lamount = filters.NumberFilter(field_name='amount', lookup_expr='lt')
     gamount = filters.NumberFilter(field_name='amount', lookup_expr='gt')
 
@@ -19,8 +21,12 @@ class CardFilter(filters.FilterSet):
     subtype = filters.CharFilter(method='subtype_filter')
     rarity = filters.CharFilter(method='rarity_filter')
 
+    amount = filters.NumberFilter()
+
+    distinct = filters.CharFilter(method='is_distinct')
     in_collection = filters.BooleanFilter(method='in_collection_filter')
     repeated = filters.BooleanFilter(method='repeated_filter')
+    repeated_name = filters.BooleanFilter(method='repeated_name_filter')
 
     level = filters.CharFilter(method='level_filter')
     archetype = filters.CharFilter(method='archetype_filter')
@@ -31,6 +37,22 @@ class CardFilter(filters.FilterSet):
 
     race = filters.CharFilter(method='race_filter')
     attribute = filters.CharFilter(method='attribute_filter')
+
+    ord = OrderingFilter(
+        # tuple-mapping retains order
+        fields=(
+            ('card_number', 'card_number'),
+            ('name', 'name'),
+            ('serial_code', 'serial_code'),
+        ),
+
+        # labels do not need to retain order
+        field_labels={
+            'card_number': 'Card Number',
+            'name': 'Name',
+            'serial_code': 'Serial Code'
+        }
+    )
 
     class Meta:
         model = Card
@@ -104,6 +126,13 @@ class CardFilter(filters.FilterSet):
         return fixtures.get_card_for_race(serial_code, value)
 
     @staticmethod
-    def attribute_filter(queryset,   name, value):
+    def attribute_filter(queryset, name, value):
         serial_code = list(queryset.values_list('serial_code', flat=True))
         return fixtures.get_card_for_attribute(serial_code, value)
+
+    @staticmethod
+    def is_distinct(queryset, name, value):
+        card_numbers = list(queryset.values_list('card_number', flat=True).distinct())
+        if value.lower() == "true":
+            card_numbers = list(set(card_numbers))
+        return fixtures.get_card_distinct(card_numbers)

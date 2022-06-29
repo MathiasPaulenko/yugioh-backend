@@ -1,9 +1,11 @@
+import requests
 from django.db.models import F
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.api.v1.card.api.serializers.info_card_serializer import InfoCardSerializer
 from apps.api.v1.collection.fixtures import (
     get_choices_inverted,
     invert_request_choices_values
@@ -15,7 +17,7 @@ from apps.api.v1.collection.serializers.card_serializer import (
     CreateSkillCardSerializer,
     CreateMagicTrapCardSerializer,
     CreatePendulumMonsterSerializer,
-    CreateLinkMonsterSerializer
+    CreateLinkMonsterSerializer, AmountCardSerializer
 )
 from apps.api.v1.collection import filters, responses
 from apps.api.v1.card.models import Card, GeneralMonster, LinkMonster, PendulumMonster, MagicTrapCard, SkillCard
@@ -151,3 +153,95 @@ class DecreaseCardViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
 
         return Response(serializer.data)
+
+
+class AmountCardViewSet(viewsets.ModelViewSet):
+    serializer_class = AmountCardSerializer
+    lookup_field = "serial_code__iexact"
+    lookup_value_regex = '[^/]+'
+    queryset = Card.objects.all()
+    http_method_names = ['get', ]
+
+
+class InCollectionCardViewSet(viewsets.ModelViewSet):
+    lookup_field = "serial_code__iexact"
+    lookup_value_regex = '[^/]+'
+    serializer_class = InfoCardSerializer
+    queryset = Card.objects.all()
+    http_method_names = ['get', ]
+
+    def retrieve(self, request, *args, **kwargs):
+        serial_code = kwargs[self.lookup_field]
+        card = self.get_serializer().Meta.model.objects.filter(serial_code=serial_code, state=True).first()
+        if card:
+            return Response(self.serializer_class(card).data, status=status.HTTP_200_OK)
+        return Response({'detail': "Not Found"}, status=status.HTTP_200_OK)
+
+
+class RepeatedByNameCardViewSet(APIView):
+    lookup_field = "serial_code__iexact"
+    lookup_value_regex = '[^/]+'
+    http_method_names = ['get', ]
+
+    @staticmethod
+    def get(request):
+        card_numbers = list(Card.objects.filter().values_list('card_number', flat=True).distinct())
+        card_numbers = list(set(card_numbers))
+
+        response_card = []
+        final_response = {'data': response_card}
+
+        for card_number in card_numbers:
+            card = Card.objects.filter(card_number=card_number)
+
+            repeated = {
+                'card_number': "",
+                'name': "",
+                'amount': 0
+            }
+
+            for query in card:
+                iter_card = Card.objects.filter(serial_code=query.serial_code).first()
+
+                repeated['card_number'] = iter_card.card_number
+                repeated['name'] = iter_card.name
+                repeated['amount'] += iter_card.amount
+
+            if repeated['amount'] > 3:
+                final_response['data'].append(repeated)
+
+        return Response(final_response, status=status.HTTP_200_OK)
+
+
+class TotalPricesCardViewSet(APIView):
+    lookup_field = "serial_code__iexact"
+    lookup_value_regex = '[^/]+'
+    http_method_names = ['get', ]
+
+    @staticmethod
+    def get(request):
+        fields = ['serial_code', 'amount']
+        card_numbers = list(Card.objects.filter().values_list(*fields))
+
+        s = requests.Session()
+        total_price = 0.0
+        data = {
+            'data': total_price
+        }
+        for code in card_numbers:
+            card_code = code[0]
+            amount = code[1]
+            print(card_code)
+
+            url = f"https://db.ygoprodeck.com/api/v7/cardsetsinfo.php?setcode={card_code}"
+            try:
+                with s.get(url) as response:
+                    response = response.json()
+                    result = float(response['set_price']) * amount
+                    data['data'] += result
+            except (Exception,) as ex:
+                print(ex)
+
+        data['data'] = str(float("{:.2f}".format(data['data'])))
+        print(data['data'])
+        return Response(data, status=status.HTTP_200_OK)

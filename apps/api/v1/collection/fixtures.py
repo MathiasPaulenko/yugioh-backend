@@ -59,6 +59,14 @@ def get_choice_race_query(obj, serial_code, value, data_choices):
         return obj.none()
 
 
+def get_choice_race_query_by_number(obj, card_number, value, data_choices):
+    races = get_choices_inverted(data_choices)
+    try:
+        return obj.filter(card_number=card_number, race=int(races[(str(value).lower())]))
+    except KeyError:
+        return obj.none()
+
+
 def get_choice_attribute_query(obj, serial_code, value, choices_data):
     attribute = {str(y).lower(): x for x, y in dict(choices_data).items()}
     try:
@@ -267,3 +275,33 @@ def invert_request_choices_values(request_data, card_type=None, card_subtype=Non
     invert_magic_trap_choice_info(request_data, card_type)
     invert_especial_choice_info(request_data, card_type)
     invert_link_val_choice_info(request_data, card_subtype)
+
+
+def get_card_distinct(card_numbers):
+    queryset = Card.objects.none()
+    try:
+        for card_number in card_numbers:
+            card = Card.objects.filter(card_number=card_number).first()
+            if str(card.type).lower() in ['spell', 'trap']:
+                query = MagicTrapCard.objects.filter(card_number=card_number).distinct()
+                queryset = combine_queryset(queryset, query, card.serial_code)
+            elif str(card.type).lower() == 'skill':
+                query = SkillCard.objects.filter(card_number=card_number).distinct()
+                queryset = combine_queryset(queryset, query, card.serial_code)
+
+            else:
+                if 'pendulum' in str(card.subtype).lower():
+                    query = PendulumMonster.objects.filter(card_number=card_number).distinct()
+                    queryset = combine_queryset(queryset, query, card.serial_code)
+
+                elif 'link' in str(card.subtype).lower():
+                    query = LinkMonster.objects.filter(card_number=card_number).distinct()
+                    queryset = combine_queryset(queryset, query, card.serial_code)
+
+                else:
+                    query = GeneralMonster.objects.filter(card_number=card_number).distinct()
+                    queryset = combine_queryset(queryset, query, card.serial_code)
+
+    except(Exception,) as ex:
+        return Card.objects.none()
+    return queryset
