@@ -31,7 +31,9 @@ cards_url = [
     path('collection/', include('apps.api.v1.collection.routers')),
     path('collection/', include('apps.api.v1.collection.urls')),
     path('info/', include('apps.api.v1.card.routers')),
-    path('info/', include('apps.api.v1.card.urls'))
+    path('info/', include('apps.api.v1.card.urls')),
+    path('dashboard/', include('apps.api.v1.dashboard.urls')),
+    path('dashboard/', include('apps.api.v1.dashboard.routers'))
 ]
 
 urlpatterns = doc_url + admin_url + cards_url
