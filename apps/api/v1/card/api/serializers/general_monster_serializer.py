@@ -33,5 +33,6 @@ class GeneralMonsterSerializer(serializers.ModelSerializer):
             'note',
             'format',
             'banned',
+            'language',
 
         )

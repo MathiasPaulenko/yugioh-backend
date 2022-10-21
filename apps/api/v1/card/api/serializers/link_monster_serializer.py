@@ -34,5 +34,6 @@ class LinkMonsterSerializer(serializers.ModelSerializer):
             'note',
             'format',
             'banned',
+            'language',
 
         )

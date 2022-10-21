@@ -70,6 +70,7 @@ class  CreateGeneralMonsterSerializer(serializers.ModelSerializer):
             'note',
             'format',
             'banned',
+            'language',
         )
 
 
@@ -96,6 +97,7 @@ class CreateSkillCardSerializer(serializers.ModelSerializer):
             'note',
             'format',
             'banned',
+            'language',
 
         )
 
@@ -125,6 +127,7 @@ class CreateMagicTrapCardSerializer(serializers.ModelSerializer):
             'note',
             'format',
             'banned',
+            'language',
 
         )
 
@@ -160,6 +163,7 @@ class CreatePendulumMonsterSerializer(serializers.ModelSerializer):
             'note',
             'format',
             'banned',
+            'language',
 
         )
 
@@ -195,6 +199,7 @@ class CreateLinkMonsterSerializer(serializers.ModelSerializer):
             'note',
             'format',
             'banned',
+            'language',
 
         )
 

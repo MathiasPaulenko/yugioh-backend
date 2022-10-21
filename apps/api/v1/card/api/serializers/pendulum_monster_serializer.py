@@ -34,5 +34,6 @@ class PendulumMonsterSerializer(serializers.ModelSerializer):
             'note',
             'format',
             'banned',
+            'language',
 
         )

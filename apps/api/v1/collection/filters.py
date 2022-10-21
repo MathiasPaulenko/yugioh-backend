@@ -12,6 +12,7 @@ class CardFilter(filters.FilterSet):
     set_name = filters.CharFilter(field_name='set_name', lookup_expr='icontains')
     game_format = filters.CharFilter(field_name='format', lookup_expr='icontains')
     banned = filters.CharFilter(field_name='banned')
+    language = filters.CharFilter(field_name='language')
 
     lamount = filters.NumberFilter(field_name='amount', lookup_expr='lt')
     gamount = filters.NumberFilter(field_name='amount', lookup_expr='gt')

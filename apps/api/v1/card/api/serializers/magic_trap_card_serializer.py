@@ -28,5 +28,6 @@ class MagicTrapCardSerializer(serializers.ModelSerializer):
             'note',
             'format',
             'banned',
+            'language',
 
         )

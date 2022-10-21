@@ -26,5 +26,6 @@ class SkillCardSerializer(serializers.ModelSerializer):
             'note',
             'format',
             'banned',
+            'language',
 
         )
